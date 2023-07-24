@@ -7,6 +7,9 @@ import { procedure, router } from "@/server/trpc";
 
 export const userQueryRouter = router({
   hello: procedure
+    .meta({
+      openapi: { method: "GET", path: "/say-hello" },
+    })
     .input(getUserQueryInputSchema)
     .output(getUserQueryOuputSchema)
     .query(async ({ input, ctx }) => {
