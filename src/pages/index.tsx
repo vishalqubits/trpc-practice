@@ -6,12 +6,31 @@ const Home = () => {
       const res = await fetch(`/api/hello`, {
         method: "GET",
         headers: {
-          "Content-type": "Application/json",
+          "Content-Type": "application/json",
         },
       });
 
       const data = await res.json();
-      document.write("Get data is", data.name);
+      document.write("My name is ", data.name + "</br>");
+
+      const response = await fetch("/api/getDetails", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data2 = await response.json();
+      document.write(data2 + "</br>");
+
+      const resp = await fetch("/api/postSum", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ num1: 5, num2: 10 }),
+      });
+      const data3 = await resp.json();
+      document.write("Sum is ", data3);
     } catch (err) {
       console.log(err);
     }
