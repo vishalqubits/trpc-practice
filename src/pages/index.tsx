@@ -3,9 +3,23 @@ import { trpc } from "@/utilis/trpc";
 const Home = () => {
   const callAPI = async () => {
     try {
+      const getToken = await fetch("/api/auth0-token", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!getToken) {
+        throw new Error("No token found");
+      }
+
+      const token = await getToken.json();
+
       const res = await fetch(`/api/hello`, {
         method: "GET",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });

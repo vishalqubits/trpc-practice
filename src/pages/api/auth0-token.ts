@@ -1,4 +1,9 @@
-export async function getManagementApiAccesstoken(): Promise<string> {
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default async function getManagementApiAccesstoken(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const secret = await fetch(
     `${process.env.AUTH0_ISSUER_BASE_URL}/oauth/token`,
     {
@@ -14,9 +19,13 @@ export async function getManagementApiAccesstoken(): Promise<string> {
       },
     }
   );
+
   if (secret.status === 200) {
     const data = await secret.json();
-    return data?.access_token;
+    res.json(data?.access_token);
+  } else {
+    res
+      .status(500)
+      .json({ message: `Failed to get access token, ${secret.statusText}` });
   }
-  throw new Error(`Failed to get access token, ${secret.statusText}`);
 }
