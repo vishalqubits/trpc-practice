@@ -11,6 +11,22 @@ function getBaseUrl() {
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
+async function token() {
+  const getToken = await fetch("/api/auth0-token", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!getToken) {
+    throw new Error("No token found");
+  }
+
+  const token = await getToken.json();
+  return token;
+}
+
 export const trpc = createTRPCNext<AppRouter>({
   config(opts) {
     return {
@@ -24,9 +40,8 @@ export const trpc = createTRPCNext<AppRouter>({
 
           // You can pass any HTTP headers you wish here
           async headers() {
-            return {
-              // authorization: getAuthCookie(),
-            };
+            let auth0Token = await token();
+            return { authorization: auth0Token };
           },
         }),
       ],

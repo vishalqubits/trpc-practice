@@ -51,13 +51,13 @@ const Home = () => {
   };
 
   const hello = trpc.userQuery.hello.useQuery({ text: "vishal" });
-  if (!hello.data) {
-    return <div>Loading...</div>;
-  }
+  // if (!hello.data) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div>
-      <p>{hello.data.greeting}</p>
+      <p>{hello?.data?.greeting}</p>
       <button onClick={callAPI}>Make an API Call</button>
     </div>
   );

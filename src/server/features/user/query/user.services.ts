@@ -1,3 +1,4 @@
+import { verifyJwt } from "@/utilis/decrypt-token";
 import { IGetUserQuery } from "./user.utilis";
 
 export const userQueryServices = {
