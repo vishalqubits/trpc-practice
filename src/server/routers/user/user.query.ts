@@ -13,7 +13,7 @@ export const userQueryRouter = router({
     .input(getUserQueryInputSchema)
     .output(getUserQueryOuputSchema)
     .query(async ({ input, ctx }) => {
-      console.log("ctx...", ctx);
+      // console.log("ctx...", ctx);
       return await userQueryServices.getUserQuery({
         input,
       });

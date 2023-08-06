@@ -1,4 +1,5 @@
 import { trpc } from "@/utilis/trpc";
+import { TRPCError } from "@trpc/server";
 
 const Home = () => {
   const callAPI = async () => {
@@ -24,27 +25,37 @@ const Home = () => {
         },
       });
 
+      if (!res.ok) {
+        const data = await res.json();
+        console.log(data);
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Token invalid !!",
+        });
+      }
+
       const data = await res.json();
       document.write("My name is ", data.name + "</br>");
 
-      const response = await fetch("/api/getDetails", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data2 = await response.json();
-      document.write(data2 + "</br>");
+      // const response = await fetch("/api/getDetails", {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+      // const data2 = await response.json();
+      // document.write(data2 + "</br>");
 
-      const resp = await fetch("/api/postSum", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ num1: 5, num2: 10 }),
-      });
-      const data3 = await resp.json();
-      document.write("Sum is ", data3);
+      // const resp = await fetch("/api/postSum", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ num1: 5, num2: 10 }),
+      // });
+      // const data3 = await resp.json();
+      // document.write("Sum is ", data3);
     } catch (err) {
       console.log(err);
     }

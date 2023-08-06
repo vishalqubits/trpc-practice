@@ -12,7 +12,7 @@ export const procedure = t.procedure;
 
 // @ts-ignore
 const isAuthed = middleware(async ({ next, ctx }) => {
-  const token = ctx.accessToken + "dhdh";
+  const token = ctx.accessToken;
 
   if (!token) {
     // throw new TRPCError({ code: "UNAUTHORIZED", message: "Not token !!" });
