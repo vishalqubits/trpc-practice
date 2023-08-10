@@ -37,15 +37,25 @@ const Home = () => {
       const data = await res.json();
       document.write("My name is ", data.name + "</br>");
 
-      // const response = await fetch("/api/getDetails", {
-      //   method: "GET",
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-      // const data2 = await response.json();
-      // document.write(data2 + "</br>");
+      const response = await fetch("/api/getDetails", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const data = await res.json();
+        console.log(data);
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Token invalid !!",
+        });
+      }
+
+      const data2 = await response.json();
+      document.write(data2 + "</br>");
 
       // const resp = await fetch("/api/postSum", {
       //   method: "POST",
